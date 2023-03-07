@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h1 class="text-center">
+        Список пользователей
+    </h1>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>№</th>
+                <th>ФИО</th>
+                <th>Роль</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for user in users %}
+                <tr>
+                    <td>{{  loop.index  }}</td>
+                    <td class="full-user-name">{{ user.full_name }}</td>
+                    <td>{{ user.role.name }}</td>
+                    <td>
+                        <div class="btn-group">
+                            <a class="btn btn-primary" href="">Просмотр</a>
+                            {% if current_user.role_id == 2 or current_user.role_id == 3 %}
+                            <a class="btn btn-secondary" href="">Редактирование</a>
+                            {% endif %}
+                            {% if current_user.role_id == 3 %}
+                            <a class="btn btn-danger">Удалить</a>
+                            {% endif %}
+                        </div>
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    {% if current_user.role_id == 3 %}
+      <a class="btn btn-primary" href="{{ url_for('users.new') }}">Создать пользователя</a>
+    {% endif %}
+
+{% endblock %}
